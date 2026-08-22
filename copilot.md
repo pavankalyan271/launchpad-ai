@@ -233,3 +233,18 @@ Copilot should:
 
 Copilot is a **development assistant**, not an autonomous decision-maker.
 
+
+
+
+
+## Frontend Development Rules
+
+1. Use React with TypeScript for frontend components and follow the existing project structure rather than introducing a new architecture unnecessarily.
+
+2. Forms must use accessible labels explicitly associated with their inputs using matching `htmlFor` and `id` attributes.
+
+3. Form validation must be implemented for required fields and defined input constraints, and validation behavior must be manually tested before accepting AI-generated code.
+
+4. Use the existing project CSS conventions and theme variables rather than introducing a new styling framework or unnecessary dependency.
+
+5. AI-generated code must be reviewed and tested by the developer before it is accepted into the project.
