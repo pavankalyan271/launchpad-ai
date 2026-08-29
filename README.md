@@ -199,6 +199,17 @@ These are future possibilities, not current features.
 The project is currently in the setup phase.  
 Core development begins in FE‑04 with the capstone skeleton.
 
+## 🛠 Getting Started
+
+Quick local setup (requires Node.js):
+
+```bash
+npm install
+npm run dev
+```
+
+Requires Node.js 18 or newer.
+
 ---
 
 ## 📄 License
