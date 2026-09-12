@@ -10,7 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.69",
+    "@ai-sdk/react": "^4.0.102",
     "@tailwindcss/postcss": "^4.3.3",
+    "ai": "^7.0.99",
     "next": "^16.1.0",
     "postcss": "^8.5.26",
     "react": "^19.2.8",
