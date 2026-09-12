@@ -9,8 +9,8 @@ const navigationItems = [
   { href: "/resume", label: "Resume" },
   { href: "/interviews", label: "Interviews" },
   { href: "/applications", label: "Applications" },
+  { href: "/assistant", label: "AI Assistant" },
 ];
-
 export default function Navigation() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
