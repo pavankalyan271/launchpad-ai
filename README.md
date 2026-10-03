@@ -215,3 +215,37 @@ Requires Node.js 18 or newer.
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+## FE-07 — Tool Results and Structured Output
+
+### Career Readiness Tool
+
+LaunchPad AI includes a server-side `analyzeCareerReadiness` tool that evaluates a candidate's readiness for an entry-level software engineering role.
+
+The tool is executed on the server through the AI SDK and uses a Zod schema to validate its input.
+
+### Tool Name
+
+`analyzeCareerReadiness`
+
+### Purpose
+
+The tool assesses:
+
+- Technical skills
+- Project experience
+- Interview preparation
+- CV readiness
+
+It returns a structured career-readiness assessment that is rendered in the UI as a dedicated score-card component.
+
+### Input Schema
+
+```ts
+{
+  targetRole: string;
+  technicalSkills: string[];
+  projects: string[];
+  interviewPreparation: number; // 0–100
+  cvReadiness: number; // 0–100
+}
