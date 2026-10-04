@@ -27,6 +27,7 @@ export default function CareerAssistant() {
     status,
     stop,
     error,
+    regenerate,
   } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
@@ -128,27 +129,112 @@ export default function CareerAssistant() {
       >
         <div className="space-y-4">
 
+          {/* First-run empty state */}
           {messages.length === 0 && (
-            <div className="rounded-xl bg-gray-50 p-5 text-sm text-gray-600">
-              <p className="font-medium text-gray-900">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+              <p className="text-base font-semibold text-slate-900 sm:text-lg">
                 Welcome to LaunchPad AI 👋
               </p>
 
-              <p className="mt-2">
-                Tell me your career goal and I&apos;ll
-                help you figure out your next step.
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Start with one of these examples, or ask me anything
+                about your career journey.
+              </p>
+
+              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setInput(
+                      "Assess my readiness for a Junior Software Engineer role."
+                    )
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <span className="block font-semibold">
+                    Assess my career readiness
+                  </span>
+
+                  <span className="mt-1 block text-xs font-normal text-slate-500">
+                    Find your strengths and skill gaps
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setInput(
+                      "What skills should I learn for a Junior Software Engineer role?"
+                    )
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <span className="block font-semibold">
+                    Find my skill gaps
+                  </span>
+
+                  <span className="mt-1 block text-xs font-normal text-slate-500">
+                    Identify skills to improve
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setInput(
+                      "Help me improve my CV for an entry-level software engineering role."
+                    )
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <span className="block font-semibold">
+                    Improve my CV
+                  </span>
+
+                  <span className="mt-1 block text-xs font-normal text-slate-500">
+                    Get practical CV improvement advice
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setInput(
+                      "Help me prepare for a Junior Software Engineer interview."
+                    )
+                  }
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  <span className="block font-semibold">
+                    Prepare for an interview
+                  </span>
+
+                  <span className="mt-1 block text-xs font-normal text-slate-500">
+                    Practice technical and behavioural questions
+                  </span>
+                </button>
+
+              </div>
+
+              <p className="mt-4 text-xs text-slate-500">
+                Select an example to fill the message box, then press
+                Send.
               </p>
             </div>
           )}
 
+          {/* Messages */}
           {messages.map((message) => (
-            <div key={message.id} className="space-y-3">
+            <div
+              key={message.id}
+              className="space-y-3"
+            >
 
-              {/* Normal user / assistant text */}
               {message.parts.map((part, index) => {
 
                 /*
-                 * TEXT PART
+                 * NORMAL TEXT PART
                  */
                 if (part.type === "text") {
                   return (
@@ -227,7 +313,10 @@ export default function CareerAssistant() {
                         className="rounded-xl border border-blue-200 bg-blue-50 p-4"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="h-3 w-3 animate-pulse rounded-full bg-blue-600" />
+                          <div
+                            className="h-3 w-3 animate-pulse rounded-full bg-blue-600"
+                            aria-hidden="true"
+                          />
 
                           <div>
                             <p className="font-medium text-blue-900">
@@ -304,7 +393,7 @@ export default function CareerAssistant() {
                    */
                   if (
                     toolPart.state ===
-                    "output-available" &&
+                      "output-available" &&
                     toolPart.output
                   ) {
                     return (
@@ -331,9 +420,13 @@ export default function CareerAssistant() {
                       <div
                         key={toolPart.toolCallId}
                         className="rounded-xl border border-red-200 bg-red-50 p-4"
+                        role="alert"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700">
+                          <div
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-700"
+                            aria-hidden="true"
+                          >
                             !
                           </div>
 
@@ -343,8 +436,11 @@ export default function CareerAssistant() {
                             </p>
 
                             <p className="mt-1 text-sm text-red-700">
-                              {toolPart.errorText ??
-                                "The assessment could not be completed. Please try again."}
+                              {toolPart.errorText &&
+                              toolPart.errorText !==
+                                "An error occurred."
+                                ? toolPart.errorText
+                                : "The career readiness service is temporarily unavailable. Please try again."}
                             </p>
 
                             <p className="mt-2 text-xs text-red-600">
@@ -364,22 +460,68 @@ export default function CareerAssistant() {
             </div>
           ))}
 
-          {/* Thinking indicator */}
+          {/* Slow response / pending state */}
           {status === "submitted" && (
             <div className="flex justify-start">
-              <div className="rounded-2xl bg-gray-100 px-4 py-3 text-sm text-gray-600">
-                LaunchPad AI is thinking
-                <span className="ml-1 animate-pulse">
-                  ...
-                </span>
+              <div
+                className="w-full max-w-[90%] rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 sm:max-w-[80%]"
+                role="status"
+                aria-live="polite"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex gap-1"
+                    aria-hidden="true"
+                  >
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.3s]" />
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.15s]" />
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-blue-500" />
+                  </div>
+
+                  <span className="text-sm font-medium text-slate-700">
+                    LaunchPad AI is preparing your response…
+                  </span>
+                </div>
+
+                <div
+                  className="mt-3 space-y-2"
+                  aria-hidden="true"
+                >
+                  <div className="h-2 w-3/4 animate-pulse rounded bg-slate-200" />
+                  <div className="h-2 w-1/2 animate-pulse rounded bg-slate-200" />
+                </div>
               </div>
             </div>
           )}
 
           {/* General API error */}
           {error && (
-            <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
-              Something went wrong. Please try again.
+            <div
+              className="rounded-xl border border-red-200 bg-red-50 p-4"
+              role="alert"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="font-semibold text-red-900">
+                    Message couldn&apos;t be completed
+                  </p>
+
+                  <p className="mt-1 text-sm text-red-700">
+                    The response was interrupted or the AI service
+                    returned an error. Your previous conversation
+                    is still available.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => regenerate()}
+                  disabled={isStreaming}
+                  className="shrink-0 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Retry message
+                </button>
+              </div>
             </div>
           )}
 
@@ -393,7 +535,7 @@ export default function CareerAssistant() {
           <button
             type="button"
             onClick={scrollToLatest}
-            className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-md hover:bg-gray-50"
+            className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-md transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300"
           >
             ↓ Jump to latest
           </button>
@@ -412,17 +554,22 @@ export default function CareerAssistant() {
             }}
             onKeyDown={handleKeyDown}
             disabled={isStreaming}
-            placeholder="Ask LaunchPad AI..."
+            placeholder={
+              isStreaming
+                ? "LaunchPad AI is responding..."
+                : "Ask LaunchPad AI..."
+            }
             aria-label="Message LaunchPad AI"
             autoComplete="off"
-            className="min-w-0 flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 disabled:bg-gray-100 sm:text-base"
+            className="min-w-0 flex-1 rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 disabled:bg-gray-100 sm:text-base"
           />
 
           {isStreaming ? (
             <button
               type="button"
               onClick={handleStop}
-              className="shrink-0 rounded-xl bg-red-600 px-4 py-3 font-medium text-white hover:bg-red-700 sm:px-5"
+              className="shrink-0 rounded-xl bg-red-600 px-4 py-3 font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 sm:px-5"
+              aria-label="Stop generating response"
             >
               Stop
             </button>
@@ -430,11 +577,14 @@ export default function CareerAssistant() {
             <button
               type="button"
               onClick={handleSend}
-              className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 font-medium text-white hover:bg-blue-700 sm:px-5"
+              disabled={false}
+              className="shrink-0 rounded-xl bg-blue-600 px-4 py-3 font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
+              aria-label="Send message"
             >
               Send
             </button>
           )}
+
         </div>
       </div>
     </div>
