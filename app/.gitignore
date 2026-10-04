@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .next
 .env.local 
+
+# Playwright test output
+test-results/
+playwright-report/
+blob-report/
