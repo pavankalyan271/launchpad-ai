@@ -16,6 +16,8 @@
   "dependencies": {
     "@ai-sdk/google": "^4.0.69",
     "@ai-sdk/react": "^4.0.102",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
     "@tailwindcss/postcss": "^4.3.3",
     "ai": "^7.0.99",
     "next": "^16.1.0",
@@ -23,7 +25,8 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.86.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
